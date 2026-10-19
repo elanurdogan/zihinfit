@@ -32,7 +32,7 @@ const navigate = hash => {
 };
 
 const manager = new GameManager({ root: views.game, storage, settings, scores, sound, workout, seed, navigate });
-if (params.has('debug')) window.__lumo = { manager, storage, workout, scores };
+if (params.has('debug')) window.__zihinfit = { manager, storage, workout, scores };
 
 // ---------- Ayarlar ----------
 

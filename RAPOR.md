@@ -217,6 +217,8 @@ Resmi kurulum sayfası: https://code.claude.com/docs/en/setup
 
 ## 7. Uygulama durumu (19 Ekim 2026)
 
+**Marka:** Proje adı **ZihinFit** (Lumosity markası ve logosu tamamen kaldırıldı).
+
 **Karar:** 30 yerine **15 oyun** (5 kategori × 3). Faz 0–4 uygulandı.
 
 ### Çalıştırma
@@ -231,7 +233,7 @@ index.html · css/style.css · server.js (bağımlılıksız yerel sunucu) · ba
 js/main.js                  yönlendirme (#/, #/oyun/<id>, #/antrenman/<n>, #/profil), ana sayfa, profil, ayarlar
 js/core/                    gameManager (intro → playing ⇄ paused → result), clock (rAF + delta-time, duraklatılabilir,
                             tek noktadan temizlenen zamanlayıcılar), rng (tohumlanabilir), trialSession, dom
-js/services/                storage (lumo:v2:*), settings, scores, workout, analysis, sound
+js/services/                storage (zihinfit:v1:*), settings, scores, workout, analysis, sound
 js/games/                   15 oyun + registry.js; logic/ altında saf, test edilen üreticiler
 js/data/words.js            Kelime Bağlamı Türkçe sözlüğü (12 kategori, ~230 kelime, az bilinenlerin anlamları)
 tests/unit/                 node:test (bağımlılıksız)       tests/e2e/run.js   Playwright + axe-core

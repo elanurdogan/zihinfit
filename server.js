@@ -42,7 +42,7 @@ const server = createServer(async (req, res) => {
 
 server.listen(PORT, '127.0.0.1', () => {
     const url = `http://localhost:${PORT}/`;
-    console.log(`Lumo çalışıyor: ${url}  (durdurmak için Ctrl+C)`);
+    console.log(`ZihinFit çalışıyor: ${url}  (durdurmak için Ctrl+C)`);
     if (args.includes('--open')) {
         const opener = process.platform === 'win32' ? `start "" "${url}"` : process.platform === 'darwin' ? `open "${url}"` : `xdg-open "${url}"`;
         exec(opener);

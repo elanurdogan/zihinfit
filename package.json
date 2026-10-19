@@ -1,8 +1,8 @@
 {
-  "name": "lumo-v2",
+  "name": "zihinfit",
   "version": "2.0.0",
   "private": true,
-  "description": "Lumo — 15 oyunluk günlük zihin antrenmanı",
+  "description": "ZihinFit — 15 oyunluk günlük zihin antrenmanı",
   "type": "module",
   "scripts": {
     "start": "node server.js --open",

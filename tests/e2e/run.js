@@ -1,4 +1,4 @@
-// Lumo E2E testleri (Playwright + yüklü Chrome/Edge). Çalıştırma: npm run test:e2e
+// ZihinFit E2E testleri (Playwright + yüklü Chrome/Edge). Çalıştırma: npm run test:e2e
 // Her oyun için: aç → nasıl oynanır → başla → etkileşim → duraklat/devam → onaylı yeniden başlat → bitir → tekrar oyna.
 // Ayrıca: derin oynanış senaryoları, antrenman, profil, ayarlar, klavye, 390 px mobil, axe erişilebilirlik taraması.
 // Tüm senaryolarda konsolda hata/uyarı ve başarısız istek olmaması şarttır.
@@ -40,7 +40,7 @@ function watch(page, label) {
 }
 
 const debug = (page, fn, arg) => page.evaluate(fn, arg);
-const instanceDebug = page => page.evaluate(() => window.__lumo.manager.instance?.debug?.());
+const instanceDebug = page => page.evaluate(() => window.__zihinfit.manager.instance?.debug?.());
 
 let loadCount = 0;
 async function openGame(page, id) {
@@ -79,16 +79,16 @@ async function lifecycle(page, games) {
             if (await page.locator('.stage-wrap:not([hidden])').count()) {
                 await page.keyboard.press('p');
                 const pausedHidden = await page.$eval('.stage', el => el.classList.contains('is-paused'));
-                const clockBefore = await debug(page, () => window.__lumo.manager.clock.now);
+                const clockBefore = await debug(page, () => window.__zihinfit.manager.clock.now);
                 await page.waitForTimeout(400);
-                const clockAfter = await debug(page, () => window.__lumo.manager.clock.now);
+                const clockAfter = await debug(page, () => window.__zihinfit.manager.clock.now);
                 check(`[${game.id}] duraklat: sahne gizli, zaman durdu`, pausedHidden && clockBefore === clockAfter);
                 await page.click('.pause-overlay .btn:has-text("Yeniden başlat")');
                 await confirm(page, false);
                 check(`[${game.id}] yeniden başlatma onayı "Vazgeç" ile iptal ediliyor`, await page.locator('.pause-overlay:not([hidden])').count() === 1);
                 await page.click('.pause-overlay .btn:has-text("Yeniden başlat")');
                 await confirm(page, true);
-                const restarted = await page.waitForFunction(() => window.__lumo.manager.state === 'playing', null, { timeout: 3000 }).then(() => true, () => false);
+                const restarted = await page.waitForFunction(() => window.__zihinfit.manager.state === 'playing', null, { timeout: 3000 }).then(() => true, () => false);
                 check(`[${game.id}] onaylı yeniden başlatma oyunu sıfırdan açıyor`, restarted && await page.locator('.pause-overlay[hidden]').count() === 1);
                 await endViaPause(page);
             } else {
@@ -103,7 +103,7 @@ async function lifecycle(page, games) {
             await page.click('.game-top .btn:has-text("Oyunlar")');
             await confirm(page, true);
             await page.waitForSelector('#view-home:not([hidden])');
-            check(`[${game.id}] oyundan onaylı çıkış ana sayfaya dönüyor, oyun duruyor`, await debug(page, () => window.__lumo.manager.state) === 'idle');
+            check(`[${game.id}] oyundan onaylı çıkış ana sayfaya dönüyor, oyun duruyor`, await debug(page, () => window.__zihinfit.manager.state) === 'idle');
         });
     }
 }
@@ -115,15 +115,15 @@ async function deepGameplay(page) {
         await openGame(page, 'sayi-fuzyonu');
         await startGame(page);
         for (let i = 0; i < 3; i++) {
-            await page.waitForFunction(() => window.__lumo.manager.instance?.debug().accepting);
+            await page.waitForFunction(() => window.__zihinfit.manager.instance?.debug().accepting);
             const { puzzle } = await instanceDebug(page);
             await page.locator('.fc-num').nth(puzzle.answer[0]).click();
             await page.keyboard.press(String(puzzle.answer[1] + 1)); // klavyeyle ikinci sayı
             await page.waitForTimeout(700);
         }
-        const progress = await debug(page, () => window.__lumo.storage.get('progress', {})['sayi-fuzyonu']);
+        const progress = await debug(page, () => window.__zihinfit.storage.get('progress', {})['sayi-fuzyonu']);
         check('[sayi-fuzyonu] 3 doğru çift: ilerleme seviye 4 olarak kaydedildi', progress?.level === 4, JSON.stringify(progress));
-        await page.waitForFunction(() => window.__lumo.manager.instance?.debug().accepting);
+        await page.waitForFunction(() => window.__zihinfit.manager.instance?.debug().accepting);
         await page.click('.btn:has-text("İpucu")');
         check('[sayi-fuzyonu] ipucu bir sayıyı işaretliyor', await page.locator('.fc-num.hint').count() === 1);
         const { puzzle } = await instanceDebug(page);
@@ -147,14 +147,14 @@ async function deepGameplay(page) {
         check('[gizli-rota] öğreticide yanlış tuş ceza yerine yönlendirme veriyor', /Çerçeveli/.test(await page.textContent('.ts-instruction')));
         for (let i = 0; i < 2; i++) await page.click('.ts-btn.hint');
         await page.click('.btn:has-text("Anladım")');
-        check('[gizli-rota] öğretici bitince oyun başlıyor ve kaydediliyor', await debug(page, () => window.__lumo.storage.get('progress', {})['gizli-rota']?.tutorialDone) === true);
-        await page.waitForFunction(() => window.__lumo.manager.instance?.debug().mode === 'input', null, { timeout: 10000 });
+        check('[gizli-rota] öğretici bitince oyun başlıyor ve kaydediliyor', await debug(page, () => window.__zihinfit.storage.get('progress', {})['gizli-rota']?.tutorialDone) === true);
+        await page.waitForFunction(() => window.__zihinfit.manager.instance?.debug().mode === 'input', null, { timeout: 10000 });
         const { sequence } = await instanceDebug(page);
         const keys = { UP: 'ArrowUp', LEFT: 'ArrowLeft', RIGHT: 'ArrowRight', DOWN: 'ArrowDown' };
         for (const dir of sequence) await page.keyboard.press(keys[dir]);
         await page.waitForTimeout(200);
         check('[gizli-rota] klavyeyle doğru rota: puan', /30/.test(await page.textContent('.hud')));
-        await page.waitForFunction(() => window.__lumo.manager.instance?.debug().mode === 'input', null, { timeout: 10000 });
+        await page.waitForFunction(() => window.__zihinfit.manager.instance?.debug().mode === 'input', null, { timeout: 10000 });
         await page.keyboard.press('r');
         check('[gizli-rota] joker (R) rotayı yeniden gösteriyor', /tekrar gösteriliyor/.test(await page.textContent('.ts-instruction')));
         await endViaPause(page);
@@ -165,13 +165,13 @@ async function deepGameplay(page) {
     await scenario('Hafıza Matrisi kısmi puan', async () => {
         await openGame(page, 'hafiza-matrisi');
         await startGame(page);
-        await page.waitForFunction(() => window.__lumo.manager.instance?.debug().accepting, null, { timeout: 5000 });
+        await page.waitForFunction(() => window.__zihinfit.manager.instance?.debug().accepting, null, { timeout: 5000 });
         const { targets } = await instanceDebug(page);
         const size = await page.locator('.mx-cell').count();
         const wrong = [...Array(size).keys()].find(i => !targets.includes(i));
         await page.locator('.mx-cell').nth(targets[0]).click();
         await page.locator('.mx-cell').nth(wrong).click();
-        check('[hafiza-matrisi] bir hata tahtayı bitirmiyor, puan korunuyor', await debug(page, () => window.__lumo.manager.instance.debug().accepting) && /10/.test(await page.textContent('.hud')));
+        check('[hafiza-matrisi] bir hata tahtayı bitirmiyor, puan korunuyor', await debug(page, () => window.__zihinfit.manager.instance.debug().accepting) && /10/.test(await page.textContent('.hud')));
         for (const t of targets.slice(1)) await page.locator('.mx-cell').nth(t).click();
         check('[hafiza-matrisi] hatalı ama tamamlanan tahta: aynı seviyede devam', /Tamamlandı/.test(await page.textContent('.mx-info')));
     });
@@ -180,7 +180,7 @@ async function deepGameplay(page) {
         await openGame(page, 'hiz-treni');
         await startGame(page);
         for (let i = 0; i < 2; i++) {
-            await page.waitForFunction(() => { const d = window.__lumo.manager.instance?.debug(); return d && !d.passed && d.y < 20; }, null, { timeout: 8000 });
+            await page.waitForFunction(() => { const d = window.__zihinfit.manager.instance?.debug(); return d && !d.passed && d.y < 20; }, null, { timeout: 8000 });
             const { targetIdx } = await instanceDebug(page);
             await page.keyboard.press(targetIdx === 0 ? 'ArrowLeft' : 'ArrowRight');
             await page.waitForFunction(n => /Skor/.test(document.querySelector('.hud').textContent) && Number(document.querySelector('.hud .pill b').textContent) >= n, (i + 1) * 10, { timeout: 8000 });
@@ -230,7 +230,7 @@ async function deepGameplay(page) {
         for (const n of order) await page.locator('.ee-num', { hasText: new RegExp(`^${n}$`) }).click();
         await page.click('.game-actions .btn:has-text("Bitir")');
         await page.waitForSelector('.result-card');
-        check('[kartal-gozu] Zen sonucu kaydedilmiyor', /Zen/.test(await page.textContent('.result-card')) && await debug(page, () => window.__lumo.scores.stats('kartal-gozu').plays) === 0);
+        check('[kartal-gozu] Zen sonucu kaydedilmiyor', /Zen/.test(await page.textContent('.result-card')) && await debug(page, () => window.__zihinfit.scores.stats('kartal-gozu').plays) === 0);
     });
 
     await scenario('Dur-Geç', async () => {
@@ -239,10 +239,10 @@ async function deepGameplay(page) {
         await page.waitForTimeout(900);
         await page.keyboard.press(' ');
         check('[dur-gec] işaret çıkmadan basmak "erken" sayılıyor', /Erken/.test(await page.textContent('.gng-feedback')));
-        await page.waitForFunction(() => window.__lumo.manager.instance?.debug().phase === 'stimulus', null, { timeout: 5000 });
+        await page.waitForFunction(() => window.__zihinfit.manager.instance?.debug().phase === 'stimulus', null, { timeout: 5000 });
         const { isGo } = await instanceDebug(page);
         if (isGo) await page.keyboard.press(' ');
-        await page.waitForFunction(() => window.__lumo.manager.instance?.debug().phase !== 'stimulus', null, { timeout: 3000 });
+        await page.waitForFunction(() => window.__zihinfit.manager.instance?.debug().phase !== 'stimulus', null, { timeout: 3000 });
         check('[dur-gec] işarete doğru tepki puan veriyor', /ms|tuttun/.test(await page.textContent('.gng-feedback')));
     });
 }
@@ -311,9 +311,9 @@ async function appFlows(page) {
         await page.keyboard.press('Enter');
         await page.waitForSelector('.intro-card');
         await page.keyboard.press('Enter'); // Başla odakta
-        check('[klavye] yalnız klavyeyle oyun kartına gidip oyun başlatılabiliyor', reached && await debug(page, () => window.__lumo.manager.state) === 'playing');
+        check('[klavye] yalnız klavyeyle oyun kartına gidip oyun başlatılabiliyor', reached && await debug(page, () => window.__zihinfit.manager.state) === 'playing');
         await page.keyboard.press('Escape');
-        check('[klavye] Esc oyunu duraklatıyor', await debug(page, () => window.__lumo.manager.state) === 'paused');
+        check('[klavye] Esc oyunu duraklatıyor', await debug(page, () => window.__zihinfit.manager.state) === 'paused');
     });
 }
 

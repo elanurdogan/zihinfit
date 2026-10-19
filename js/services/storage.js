@@ -1,7 +1,7 @@
-// Versiyonlu anahtarlarla kalıcı depolama (lumo:v2:*). localStorage kullanılamıyorsa
+// Versiyonlu anahtarlarla kalıcı depolama (zihinfit:v1:*). localStorage kullanılamıyorsa
 // (gizli sekme, kapalı site verisi) bellek içi depoya düşer; uygulama yine çalışır.
 
-export const PREFIX = 'lumo:v2:';
+export const PREFIX = 'zihinfit:v1:';
 
 export function memoryBackend() {
     const map = new Map();

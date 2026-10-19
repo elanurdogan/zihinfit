@@ -1,4 +1,4 @@
-# Lumo — Günlük Zihin Antrenmanı
+# ZihinFit — Günlük Zihin Antrenmanı
 
 Hafıza, dikkat, hız, esneklik ve problem çözme için **15 bilişsel oyun**. Telefonda ve bilgisayarda çalışır, kurulum gerektirmez.
 
