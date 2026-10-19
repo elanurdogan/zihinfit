@@ -1,0 +1,12 @@
+{
+  "name": "Lumo — Günlük Zihin Antrenmanı",
+  "short_name": "Lumo",
+  "description": "Hafıza, dikkat, hız, esneklik ve problem çözme için 15 bilişsel oyun.",
+  "lang": "tr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F5F6FA",
+  "theme_color": "#5B3CC4",
+  "icons": [{ "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

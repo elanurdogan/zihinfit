@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#5B3CC4">
+    <title>Lumo — Günlük Zihin Antrenmanı</title>
+    <meta name="description" content="Hafıza, dikkat, hız, esneklik ve problem çözme için 15 bilişsel oyun.">
+    <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="assets/icon.svg">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <a class="skip-link" href="#app">İçeriğe geç</a>
+    <header class="topbar">
+        <a class="brand" href="#/" aria-label="Lumo ana sayfa">
+            <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+                <circle cx="32" cy="32" r="30" fill="currentColor"/>
+                <path d="M20 42V20h6v16h12v6z" fill="#FFD43B"/>
+                <circle cx="44" cy="22" r="4" fill="#FFD43B"/>
+            </svg>
+            <span class="brand-name">Lumo</span>
+        </a>
+        <nav class="nav" aria-label="Ana menü">
+            <a class="nav-link" data-view="home" href="#/">Antrenman</a>
+            <a class="nav-link" data-view="profile" href="#/profil">Profil</a>
+            <button id="open-settings" class="btn btn-small btn-ghost" aria-haspopup="dialog">⚙️ Ayarlar</button>
+        </nav>
+    </header>
+
+    <main id="app" tabindex="-1">
+        <div id="view-home" class="view"></div>
+        <div id="view-game" class="view" hidden></div>
+        <div id="view-profile" class="view" hidden></div>
+        <noscript><p class="card">Lumo'yu oynamak için JavaScript gerekiyor.</p></noscript>
+    </main>
+
+    <dialog id="settings-dialog" class="dialog" aria-labelledby="settings-title">
+        <form method="dialog">
+            <h2 id="settings-title">Ayarlar</h2>
+            <label class="switch-row">
+                <input type="checkbox" id="set-colorblind">
+                <span><b>Renk körü modu</b><br><span class="muted">Yüksek kontrastlı, renk körlüğüne uygun palet. Renkler her zaman sembolle de ayrılır.</span></span>
+            </label>
+            <label class="switch-row">
+                <input type="checkbox" id="set-sound">
+                <span><b>Ses efektleri</b><br><span class="muted">Doğru/yanlış ve seviye sesleri.</span></span>
+            </label>
+            <label class="switch-row">
+                <input type="checkbox" id="set-motion">
+                <span><b>Hareketi azalt</b><br><span class="muted">Animasyonları ve sarsıntı efektlerini kapatır.</span></span>
+            </label>
+            <div class="settings-actions">
+                <button type="button" id="reset-tutorials" class="btn btn-small">Öğreticileri yeniden göster</button>
+                <button type="button" id="reset-all" class="btn btn-small btn-danger">Tüm verileri sil</button>
+            </div>
+            <div class="btn-row">
+                <button class="btn btn-primary" value="close">Kapat</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="confirm-dialog" class="dialog" aria-labelledby="confirm-title">
+        <form method="dialog">
+            <h2 id="confirm-title"></h2>
+            <p id="confirm-message"></p>
+            <div class="btn-row">
+                <button id="confirm-cancel" class="btn" value="cancel"></button>
+                <button id="confirm-ok" class="btn btn-primary" value="ok"></button>
+            </div>
+        </form>
+    </dialog>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
