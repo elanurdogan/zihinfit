@@ -453,6 +453,8 @@ main { max-width: 980px; margin: 0 auto; padding: 20px clamp(12px, 4vw, 24px) 64
 @media (max-width: 480px) {
     .brand-name { font-size: 1.15rem; }
     .nav-link { padding: 0 8px; }
+    .nav { flex-wrap: nowrap; }
+    .nav-text { display: none; }
     .stage { min-height: 300px; }
     .workout-item { flex-wrap: wrap; }
     .workout-buttons { width: 100%; justify-content: flex-start; padding-left: 2.75rem; }
