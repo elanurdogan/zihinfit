@@ -1,0 +1,5 @@
+node_modules/
+# Ham Google Play yorumları: kişisel veri içerir, depoya konmaz (yerelde analiz için tutulur)
+lumosity_feedbacks.txt
+# Test çıktıları
+tests/e2e/*.png
