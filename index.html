@@ -12,6 +12,14 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="css/style.css">
+    <script>
+        // index.html çift tıklanınca (file://) tarayıcı ES modüllerini yüklemez.
+        // İnternet varsa canlı siteye geç; yoksa sayfada baslat.bat yönergesi gösterilir.
+        if (location.protocol === 'file:') {
+            window.ZIHINFIT_FILE_MODE = true;
+            if (navigator.onLine) location.replace('https://elanurdogan.github.io/zihinfit/' + location.hash);
+        }
+    </script>
 </head>
 <body>
     <a class="skip-link" href="#app">İçeriğe geç</a>
@@ -34,6 +42,15 @@
         <div id="view-home" class="view"></div>
         <div id="view-game" class="view" hidden></div>
         <div id="view-profile" class="view" hidden></div>
+        <section id="file-mode-help" class="card" hidden>
+            <h2>ZihinFit'i açmak için</h2>
+            <p>Dosyaya çift tıklayınca tarayıcı oyunları yükleyemiyor. İki kolay yol var:</p>
+            <ol>
+                <li>İnternete bağlanıp bu sayfayı yenile ya da <a href="https://elanurdogan.github.io/zihinfit/">çevrimiçi sürümü aç</a>.</li>
+                <li>İnternetsiz oynamak için klasördeki <b>baslat.bat</b> dosyasına çift tıkla (Node.js gerekir).</li>
+            </ol>
+        </section>
+        <script>if (window.ZIHINFIT_FILE_MODE) document.getElementById('file-mode-help').hidden = false;</script>
         <noscript><p class="card">ZihinFit'i oynamak için JavaScript gerekiyor.</p></noscript>
     </main>
 
